@@ -3,6 +3,10 @@
  */
 
 public class Test {
-    Decipher decipher= new Decipher();
-
+    public static void main(String [] args) {
+        Decipher decipher = new Decipher();
+        String text="";
+        text=decipher.readFromTextFile("cipher2.txt");
+        System.out.println(text);
+    }
 }
