@@ -44,23 +44,26 @@ public class Decipher {
         int len=cipherText.length();
         int ShiftLength=3;
         String decrypted="";
-        for(int i=0; i<len; i++){
-            int c=cipherText.charAt(i);
-            if(Character.isUpperCase(c)){
-                c=c-(ShiftLength%26);
-                if(c<'A'){
-                    c=c+26;
+        for (ShiftLength=0; ShiftLength<26; ShiftLength++) {
+            for (int i = 0; i < len; i++) {
+                int c = cipherText.charAt(i);
+                if (Character.isUpperCase(c)) {
+                    c = c - (ShiftLength % 26);
+                    if (c < 'A') {
+                        c = c + 26;
+                    }
+                } else if (Character.isLowerCase(c)) {
+                    c = c - (ShiftLength % 26);
+                    if (c < 'a') {
+                        c = c + 26;
+                    }
                 }
+                decrypted = decrypted + (char) c;
             }
-            else if(Character.isLowerCase(c)){
-                c=c-(ShiftLength%26);
-                if(c<'a'){
-                    c=c+26;
-                }
-            }
-            decrypted=decrypted + (char) c;
+            System.out.println(decrypted);
+            decrypted="";
         }
-        System.out.println(decrypted);
+
     }
 
     public void decryptPermutationCipher(String cipherText){

@@ -9,7 +9,7 @@ public class Test {
         text=decipher.readFromTextFile("cipher1.txt");
         System.out.println(text);
         decipher.countLetters(text);
-        //decipher.decryptShiftCipher(text);
-        decipher.decryptPermutationCipher(text);
+        decipher.decryptShiftCipher(text);
+        //decipher.decryptPermutationCipher(text);
     }
 }
