@@ -62,4 +62,19 @@ public class Decipher {
         }
         System.out.println(decrypted);
     }
+
+    public void decryptPermutationCipher(String cipherText){
+        //int key=2;
+        StringBuilder decipheredString= new StringBuilder();
+        for(int key=2; key<20; key++) {
+            for (int ii = 0; ii < key; ii++) {
+                for (int jj = ii; jj < cipherText.length(); jj += key) {
+                    decipheredString.append(cipherText.charAt(jj));
+                }
+            }
+            System.out.println(decipheredString);
+            decipheredString.setLength(0);
+        }
+
+    }
 }
