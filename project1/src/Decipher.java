@@ -281,7 +281,15 @@ public class Decipher {
             result.add(key);
         }
         return result;
+    }
 
+    public String convertKey(ArrayList<Integer> key){
+        String keyword="";
+        for(Integer num:key){
+            int tempNum=num+'A';
+            keyword+=(char) tempNum;
+        }
+        return keyword;
     }
 
 }

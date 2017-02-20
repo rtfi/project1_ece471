@@ -19,8 +19,10 @@ public class Test {
         //decipher.countDigrams(text);
         //decipher.decryptShiftCipher(text);
         //decipher.decryptPermutationCipher(text);
-        //key=decipher.determineKey(text,7);
-        //System.out.println(key);
+        key=decipher.determineKey(text,7);
+        System.out.println(key);
+        String keyword=decipher.convertKey(key);
+        System.out.println(keyword);
         //double ChiSquared=decipher.calculateChiSquared(numChars);
         //System.out.println(ChiSquared);
         //Map<Integer, Double> periods=decipher.calculateICPeriods(text);
