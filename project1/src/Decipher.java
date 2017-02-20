@@ -256,7 +256,7 @@ public class Decipher {
         return ChiSquared;
     }
 
-    public ArrayList<Integer> determineKey(String cipherText, int keyLength){
+    public ArrayList<Integer> calculateKey(String cipherText, int keyLength){
         String decrypted="";
         double ic=10000;
         double tempIC=0;
@@ -290,6 +290,20 @@ public class Decipher {
             keyword+=(char) tempNum;
         }
         return keyword;
+    }
+    /*
+    Wrapper class for determining key length of vigenere cipher
+     */
+    public void determineKeyLength(String cipherText){
+        Map<Integer, Double> keyLengths=calculateICPeriods(cipherText);
+        System.out.println("Key Lengths and Shifted ICs");
+        System.out.println(keyLengths);
+    }
+    public void determineKey(String cipherText, int keyLength){
+        ArrayList<Integer> keys=calculateKey(cipherText, keyLength);
+        String keyword=convertKey(keys);
+        System.out.println("Possible key: ");
+        System.out.println(keyword);
     }
 
 }
