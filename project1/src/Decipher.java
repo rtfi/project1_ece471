@@ -71,7 +71,7 @@ public class Decipher {
     }
     public Map<String, Integer> countDigrams(String cipherText){
         Map<String, Integer> digrams=new HashMap<String, Integer>();
-        
+
         for(int ii=0; ii<cipherText.length();ii++){
             String digram=cipherText.substring(ii,Math.min(ii+2, cipherText.length()));
             if(!digrams.containsKey(digram)){
@@ -148,6 +148,21 @@ public class Decipher {
             System.out.println("Columns " + key + ": " + decipheredString);
             decipheredString.setLength(0);
         }
+    }
+
+    public void decryptVigenereCipher(String cipherText, String key){
+        StringBuilder plainText=new StringBuilder();
+        for(int ii=0; ii<cipherText.length(); ii++){
+            int cipherChar = cipherText.charAt(ii) - 'A';
+            int keyChar = key.charAt(ii % key.length()) - 'A';
+            int plainChar = ((cipherChar - keyChar) % 26);
+            if (plainChar < 0) {
+                plainChar += 26;
+            }
+            plainChar += 'A';
+            plainText.append((char) plainChar);
+        }
+        System.out.println(plainText.toString());
     }
     public double calculateIC(Map<Character, Integer> numChars){
         double ic=0;

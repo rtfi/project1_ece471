@@ -10,12 +10,13 @@ public class Test {
         decipher.initializeCharacterFrequency();
         ArrayList<Integer> key=new ArrayList<Integer>();
         String text="";
-        text=decipher.readFromTextFile("cipher2.txt");
+        text=decipher.readFromTextFile("test.txt");
         text=text.toUpperCase();
         System.out.println(text);
         numChars=decipher.countLetters(text);
         System.out.println(numChars);
-        decipher.countDigrams(text);
+        decipher.decryptVigenereCipher(text, "CIPHERS");
+        //decipher.countDigrams(text);
         //decipher.decryptShiftCipher(text);
         //decipher.decryptPermutationCipher(text);
         //key=decipher.determineKey(text,7);
