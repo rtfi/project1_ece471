@@ -69,6 +69,21 @@ public class Decipher {
         //System.out.println(numChars);
         return numChars;
     }
+    public Map<String, Integer> countDigrams(String cipherText){
+        Map<String, Integer> digrams=new HashMap<String, Integer>();
+        
+        for(int ii=0; ii<cipherText.length();ii++){
+            String digram=cipherText.substring(ii,Math.min(ii+2, cipherText.length()));
+            if(!digrams.containsKey(digram)){
+                digrams.put(digram, 1);
+            }
+            else {
+                digrams.put(digram, digrams.get(digram) + 1);
+            }
+        }
+        System.out.println(digrams);
+        return digrams;
+    }
 
     public void decryptShiftCipher(String cipherText){
         int len=cipherText.length();
