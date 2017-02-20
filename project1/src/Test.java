@@ -8,17 +8,20 @@ public class Test {
         Decipher decipher = new Decipher();
         Map<Character, Integer> numChars;
         decipher.initializeCharacterFrequency();
+        ArrayList<Integer> key=new ArrayList<Integer>();
         String text="";
         text=decipher.readFromTextFile("test.txt");
         text=text.toUpperCase();
         System.out.println(text);
         numChars=decipher.countLetters(text);
         System.out.println(numChars);
-        decipher.decryptShiftCipher(text);
+        //decipher.decryptShiftCipher(text);
         //decipher.decryptPermutationCipher(text);
-        double ChiSquared=decipher.calculateChiSquared(numChars);
-        System.out.println(ChiSquared);
-        Map<Integer, Double> periods=decipher.calculateICPeriods(text);
-        System.out.println(periods);
+        key=decipher.determineKey(text,7);
+        System.out.println(key);
+        //double ChiSquared=decipher.calculateChiSquared(numChars);
+        //System.out.println(ChiSquared);
+        //Map<Integer, Double> periods=decipher.calculateICPeriods(text);
+        //System.out.println(periods);
     }
 }

@@ -124,13 +124,13 @@ public class Decipher {
     public void decryptPermutationCipher(String cipherText){
         //int key=2;
         StringBuilder decipheredString= new StringBuilder();
-        for(int key=2; key<20; key++) {
+        for(int key=2; key<100; key++) {
             for (int ii = 0; ii < key; ii++) {
                 for (int jj = ii; jj < cipherText.length(); jj += key) {
                     decipheredString.append(cipherText.charAt(jj));
                 }
             }
-            System.out.println(decipheredString);
+            System.out.println("Columns " + key + ": " + decipheredString);
             decipheredString.setLength(0);
         }
     }
@@ -210,15 +210,45 @@ public class Decipher {
         }
         return ChiSquared;
     }
-
-    public String determineKey(String cipherText, double keyLength){
-        String result="";
-        StringBuilder subString=new StringBuilder();
-        for(int ii=0; ii<cipherText.length(); ii+=keyLength){
-            subString.append(cipherText.charAt(ii));
+    public double calculateChiSquared(String cipherText){
+        double ChiSquared=0;
+        double expectedCount=0;
+        int TotalCharacters=0;
+        Map<Character, Double> ChiSquaredMap=new HashMap<Character, Double>();
+        Map<Character, Integer> numChars=countLetters(cipherText);
+        for(int letterFrequency:numChars.values()){
+            TotalCharacters+=letterFrequency;
         }
-        for(int ii=0; ii<26; ii++) {
-            decryptShiftCipher(subString.toString(), ii);
+        for(char key:numChars.keySet()){
+            expectedCount=TotalCharacters*CharacterFrequency.get(key);
+            ChiSquared+=(numChars.get(key)-expectedCount)*(numChars.get(key)-expectedCount)/expectedCount;
+        }
+        return ChiSquared;
+    }
+
+    public ArrayList<Integer> determineKey(String cipherText, int keyLength){
+        String decrypted="";
+        double ic=10000;
+        double tempIC=0;
+        int key=0;
+        StringBuilder subString=new StringBuilder();
+        ArrayList<Integer> result= new ArrayList<Integer>();
+
+        for(int k=0; k<keyLength; k++) {
+            for(int ii=k; ii<cipherText.length(); ii+=keyLength){
+                subString.append(cipherText.charAt(ii));
+            }
+            for (int ii = 0; ii < 26; ii++) {
+                decrypted = decryptShiftCipher(subString.toString(), ii);
+                tempIC = calculateChiSquared(decrypted);
+                if (tempIC < ic) {
+                    ic = tempIC;
+                    key = ii;
+                }
+            }
+            ic=10000;
+            subString.setLength(0);
+            result.add(key);
         }
         return result;
 
