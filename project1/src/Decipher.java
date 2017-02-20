@@ -65,7 +65,7 @@ public class Decipher {
                 numChars.put(charAt, numChars.get(charAt)+1);
             }
         }
-        System.out.println("Total Length: " + len);
+        //System.out.println("Total Length: " + len);
         //System.out.println(numChars);
         return numChars;
     }
@@ -94,7 +94,31 @@ public class Decipher {
             System.out.println(ShiftLength + ": " + decrypted);
             decrypted.setLength(0);
         }
+    }
 
+    public String decryptShiftCipher(String cipherText, int ShiftLength){
+        int len=cipherText.length();
+        StringBuilder decrypted= new StringBuilder();
+
+        for (int i = 0; i < len; i++) {
+            int c = cipherText.charAt(i);
+            if (Character.isUpperCase(c)) {
+                c = c - (ShiftLength % 26);
+                if (c < 'A') {
+                    c = c + 26;
+                }
+            } else if (Character.isLowerCase(c)) {
+                c = c - (ShiftLength % 26);
+                if (c < 'a') {
+                    c = c + 26;
+                }
+            }
+            char ch=(char) c;
+            decrypted = decrypted.append(ch);
+        }
+            //System.out.println(ShiftLength + ": " + decrypted);
+            //decrypted.setLength(0);
+        return decrypted.toString();
     }
 
     public void decryptPermutationCipher(String cipherText){
@@ -156,12 +180,20 @@ public class Decipher {
         return ICPeriods;
     }
 
-    public double estimateKeyLength(String cipherText){
-        Map<Character, Integer> numChars=countLetters(cipherText);
-        double ic=calculateIC(numChars);
-        double top=.027*cipherText.length();
-        double bottom=(cipherText.length()-1)*ic-.038*cipherText.length()+.065;
-        return top/bottom;
+    public double[] estimateKeyLength(Map<Integer, Double> periods){
+        double[] result=new double[]{0,0,0};
+        for(Integer key:periods.keySet()){
+            if(periods.get(key)>result[1]){
+                result[1]=key;
+            }
+            else if(periods.get(key)>result[2]){
+                result[2]=key;
+            }
+            else if(periods.get(key)>result[3]){
+                result[3]=key;
+            }
+        }
+        return result;
     }
 
     public double calculateChiSquared(Map<Character, Integer> numChars){
@@ -181,7 +213,15 @@ public class Decipher {
 
     public String determineKey(String cipherText, double keyLength){
         String result="";
+        StringBuilder subString=new StringBuilder();
+        for(int ii=0; ii<cipherText.length(); ii+=keyLength){
+            subString.append(cipherText.charAt(ii));
+        }
+        for(int ii=0; ii<26; ii++) {
+            decryptShiftCipher(subString.toString(), ii);
+        }
         return result;
+
     }
 
 }

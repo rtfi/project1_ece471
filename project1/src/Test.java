@@ -19,6 +19,6 @@ public class Test {
         double ChiSquared=decipher.calculateChiSquared(numChars);
         System.out.println(ChiSquared);
         Map<Integer, Double> periods=decipher.calculateICPeriods(text);
-
+        System.out.println(periods);
     }
 }
