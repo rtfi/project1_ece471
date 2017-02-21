@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Decipher {
     public Map<Character, Double> CharacterFrequency=new HashMap<Character, Double>();
+    //Initializes hashmap of character frequencies in English
     public void initializeCharacterFrequency(){
         CharacterFrequency.put('A', .082);
         CharacterFrequency.put('B', .015);
@@ -34,6 +35,9 @@ public class Decipher {
         CharacterFrequency.put('Y', .020);
         CharacterFrequency.put('Z', .001);
     }
+    /*
+    Function to read text from file given a filename. Returns the text as a string.
+     */
     public String readFromTextFile(String fileName){
         //String fileName = "cipher1.txt";
         String line = null;
@@ -53,6 +57,9 @@ public class Decipher {
         }
         return result;
     }
+    /*
+    Counts the letter frequencies in the text. Returns a hashmap of the letter and their frequencies
+     */
     public Map<Character, Integer> countLetters(String letters){
         int len=letters.length();
         Map<Character, Integer> numChars = new HashMap<Character, Integer>(Math.min(len, 26));
@@ -69,6 +76,9 @@ public class Decipher {
         //System.out.println(numChars);
         return numChars;
     }
+    /*
+    Counts the digrams in a given ciphertext. Returns a hashmap of the digram and the count.
+     */
     public Map<String, Integer> countDigrams(String cipherText){
         Map<String, Integer> digrams=new HashMap<String, Integer>();
 
@@ -85,6 +95,9 @@ public class Decipher {
         return digrams;
     }
 
+    /*
+    decrypt the shift cipher; trys all 26 possiblities of shifts.
+     */
     public void decryptShiftCipher(String cipherText){
         int len=cipherText.length();
         int ShiftLength=3;
@@ -111,6 +124,9 @@ public class Decipher {
         }
     }
 
+    /*
+    Decrypts the shift cipher given a single shift key.
+     */
     public String decryptShiftCipher(String cipherText, int ShiftLength){
         int len=cipherText.length();
         StringBuilder decrypted= new StringBuilder();
@@ -136,6 +152,9 @@ public class Decipher {
         return decrypted.toString();
     }
 
+    /*
+    Decrypts the permutation cipher for columnar transposition.
+     */
     public void decryptPermutationCipher(String cipherText){
         //int key=2;
         StringBuilder decipheredString= new StringBuilder();
@@ -150,6 +169,9 @@ public class Decipher {
         }
     }
 
+    /*
+    Decrypt Vigenere cipher given the cipher text and the key word.
+     */
     public void decryptVigenereCipher(String cipherText, String key){
         StringBuilder plainText=new StringBuilder();
         for(int ii=0; ii<cipherText.length(); ii++){
@@ -164,6 +186,9 @@ public class Decipher {
         }
         System.out.println(plainText.toString());
     }
+    /*
+    Calculates the IC of the cipher text.
+     */
     public double calculateIC(Map<Character, Integer> numChars){
         double ic=0;
         int TotalCharacters=0;
@@ -192,6 +217,9 @@ public class Decipher {
         }
         return ic;
     }
+    /*
+    Function to calculate the IC periods, otherwise known as the shifted IC. Returns a hashmap of the shift number and corresponding IC.
+     */
     public Map<Integer, Double> calculateICPeriods(String cipherText){
         Map<Integer, Double> ICPeriods= new HashMap<Integer, Double>();
         StringBuilder stringSubset=new StringBuilder();
@@ -210,22 +238,9 @@ public class Decipher {
         return ICPeriods;
     }
 
-    public double[] estimateKeyLength(Map<Integer, Double> periods){
-        double[] result=new double[]{0,0,0};
-        for(Integer key:periods.keySet()){
-            if(periods.get(key)>result[1]){
-                result[1]=key;
-            }
-            else if(periods.get(key)>result[2]){
-                result[2]=key;
-            }
-            else if(periods.get(key)>result[3]){
-                result[3]=key;
-            }
-        }
-        return result;
-    }
-
+    /*
+    Calculate Chi Squared value given a hashmap of characters and their frequencies
+     */
     public double calculateChiSquared(Map<Character, Integer> numChars){
         double ChiSquared=0;
         double expectedCount=0;
@@ -240,6 +255,9 @@ public class Decipher {
         }
         return ChiSquared;
     }
+    /*
+    Calculates the Chi Squared value from a given text
+     */
     public double calculateChiSquared(String cipherText){
         double ChiSquared=0;
         double expectedCount=0;
@@ -256,6 +274,10 @@ public class Decipher {
         return ChiSquared;
     }
 
+    /*
+    Calculates the vigenere key from a given ciphertext and a assumed key length. The function returns an array of integers (0-26) corresponding to each key letter: k1, k2, k3, etc...
+    0=A, 1=B, 2=C, etc...
+     */
     public ArrayList<Integer> calculateKey(String cipherText, int keyLength){
         String decrypted="";
         double ic=10000;
@@ -283,6 +305,9 @@ public class Decipher {
         return result;
     }
 
+    /*
+    Converts a array of integers into a string. 0=A, 1=B, 2=C, 3=D, etc...
+     */
     public String convertKey(ArrayList<Integer> key){
         String keyword="";
         for(Integer num:key){
@@ -299,6 +324,9 @@ public class Decipher {
         System.out.println("Key Lengths and Shifted ICs");
         System.out.println(keyLengths);
     }
+    /*
+    Wrapper function for determining the key as a string.
+     */
     public void determineKey(String cipherText, int keyLength){
         ArrayList<Integer> keys=calculateKey(cipherText, keyLength);
         String keyword=convertKey(keys);
